@@ -14,6 +14,7 @@ let postRegister = async (req, res) => {
   //console.log(validationResult(req).mapped()) show ra các lôi
   let errorArr = [];
   let successArr = [];
+  
   let validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     let errors = Object.values(validationErrors.mapped());
