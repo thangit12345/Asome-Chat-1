@@ -1,0 +1,54 @@
+import express from "express";
+import {home, auth,user } from "./../controllers/index"
+import {authValid, userValid} from "./../validation/index";
+import initPassportLocal from "./../controllers/passportController/local";
+import passport from "passport";
+import initPassportFacebook from "./../controllers/passportController/facebook";
+import initPassportGoogle from "./../controllers/passportController/google";
+//init all passport
+initPassportLocal();
+initPassportFacebook();
+initPassportGoogle();
+
+let router = express.Router();
+
+/**
+ * Init all router
+ * @param app from exactly express
+ */
+let initRoutes = (app) => {
+
+  router.get("/login-register",auth.checkLoggedOut, auth.getLoginRegister);
+  router.post("/register", auth.checkLoggedOut, authValid.register ,auth.postRegister);
+  router.get("/verify/:token", auth.checkLoggedOut, auth.verifyAccount);
+  router.post("/login", passport.authenticate("local", {
+    successRedirect: "/", //thanh con chuyen ve trang chu
+    failureRedirect: "/login-register", //that bai
+    successFlash: true, //de no truyen request flash ve va show rthog bao ra
+    failureFlash: true
+  }));
+
+  router.get("/auth/facebook", auth.checkLoggedOut, passport.authenticate("facebook", {scope: ["email"]}));
+  router.get("/auth/facebook/callback", auth.checkLoggedOut, passport.authenticate("facebook", {
+    successRedirect: "/",
+    failureRedirect: "/login-register"
+  }));
+
+  router.get("/auth/google", auth.checkLoggedOut, passport.authenticate("google", {scope: ["email"]}));
+  router.get("/auth/google/callback", auth.checkLoggedOut, passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/login-register"
+  }));
+
+  
+  router.get("/",auth.checkLoggedIn, home.getHome);
+  router.get("/logout", auth.checkLoggedIn, auth.getLogout);
+
+  router.put("/user/update-avatar", auth.checkLoggedIn, user.updateAvatar);
+  router.put("/user/update-info", auth.checkLoggedIn,userValid.updateInfo, user.updateInfo);
+  router.put("/user/update-password", auth.checkLoggedIn, user.updatePassword);
+
+   return app.use("/", router)
+};
+
+module.exports = initRoutes;
