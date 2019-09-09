@@ -1,10 +1,12 @@
 import express from "express";
-import {home, auth,user } from "./../controllers/index"
-import {authValid, userValid} from "./../validation/index";
+import {home, auth,user, contact} from "./../controllers/index"
+import {authValid, userValid, contactValid} from "./../validation/index";
 import initPassportLocal from "./../controllers/passportController/local";
 import passport from "passport";
 import initPassportFacebook from "./../controllers/passportController/facebook";
 import initPassportGoogle from "./../controllers/passportController/google";
+
+
 //init all passport
 initPassportLocal();
 initPassportFacebook();
@@ -46,7 +48,9 @@ let initRoutes = (app) => {
 
   router.put("/user/update-avatar", auth.checkLoggedIn, user.updateAvatar);
   router.put("/user/update-info", auth.checkLoggedIn,userValid.updateInfo, user.updateInfo);
-  router.put("/user/update-password", auth.checkLoggedIn, user.updatePassword);
+  router.put("/user/update-password", auth.checkLoggedIn,userValid.updatePassword, user.updatePassword);
+
+  router.get("/contact/find-users/:keyword", auth.checkLoggedIn, contactValid.findUserContact, contact.findUsersContact);
 
    return app.use("/", router)
 };

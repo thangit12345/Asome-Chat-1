@@ -5,6 +5,29 @@ let originUserInfo = {};
 
 let userUpdatePassword = {};
 
+function callLogout() {
+  let timerInterval;
+  Swal.fire({
+    position: 'top-end',
+    title: "Tự động đăng xuất sau 5s !",
+    html: "Thời gian : <strong><strong/>",
+    timer: 5000,
+    onBeforeOpen: () => {
+      Swal.showLoading();
+      timerInterval: setInterval(() => {
+        Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+      }, 1000);
+    },
+    onClose: () => {
+      clearInterval(timerInterval);
+    }
+  }).then((result) => {
+    $.get("/logout", function() {
+      location.reload();
+    });
+  });
+}
+
 function updateUserInfo() {
   $("#input-change-avatar").bind("change", function() {
     let fileData = $(this).prop("files")[0]; //
@@ -173,7 +196,7 @@ function callUpdateUserAvatar() {
     },
     error: function(error) {
       //display error
-      console.log('ben updateuser',error);
+      console.log("ben updateuser",error);
       $(".user-modal-alert-error").find("span").text(error.responseText);
       $(".user-modal-alert-error").css("display", "block");
 
@@ -228,6 +251,9 @@ function callUpdateUserPassword() {
       $(".user-modal-password-alert-success").css("display", "block");
      
       $("#input-btn-cancel-user-password").click();
+
+      //logout after change password success
+      callLogout();
     },
     error: function(error) {
       $(".user-modal-password-alert-error").find("span").text(error.responseText);
@@ -288,7 +314,25 @@ $(document).ready(function() {
       alertify.notify("Ban phai thay doi day du thong tin !", "error", 7);
       return false;
     }
-    callUpdateUserPassword();
+    //vào google gõ sweetalert2 ,,thư viện
+    Swal.fire({
+      title: "Bạn có chắc muốn thay đổi mật khẩu ?",
+      text: "Bạn không thể hoàn tác lại quá trình này !",
+      type: "info", //warning
+      showCancelButton: true,
+      confirmButtonColor: "#2ECC71",
+      cancelButtonColor: "#ff7675",
+      confirmButtonText: "Xác nhận",
+      cancelButtonText: "Hủy"
+    }).then((result) => {
+      //console.log(result);
+      if(!result.value) {
+        $("#input-btn-cancel-user-password").click();
+        return false;
+      }
+      callUpdateUserPassword();
+    });
+    //end sweetalert2
   });
   $("#input-btn-cancel-user-password").bind("click", function() {
     userUpdatePassword = {};
