@@ -26,6 +26,39 @@ ContactSchema.statics = {
         {"contactId": userId}
       ]
     }).exec();
+  },
+
+  /**
+   * Check exit of 2 user
+   * @param {string} userId 
+   * @param {string} contactId 
+   */
+  checkExit(userId, contactId) {
+    return this.findOne({
+      $or: [
+        {$and: [
+          {"userId": userId},
+          {"contactId": contactId}
+        ]},
+        {$and: [
+          {"userId": contactId},
+          {"contactId": userId}
+        ]}
+      ]
+    }).exec();
+  },
+  /**
+   * Remove request Contact
+   * @param {string} userId 
+   * @param {string} contactId 
+   */
+  removeRequestContact(userId, contactId) {
+    return this.remove({
+      $and: [
+        {"userId": userId},
+        {"contactId": contactId}
+      ]
+    }).exec();
   }
 };
 
