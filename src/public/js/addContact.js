@@ -10,7 +10,8 @@ function addContact() {
         $("#find-user").find(`div.user-remove-request-contact[data-uid=${targetId}]`).css("display", "inline-block");
         increaseNumberNotisContact("count-request-contact-sent");
         // xu ly realtime
-
+        socket.emit("add-new-contact", {contactId: targetId}); //bien socket da khoi taoj trong file main.js
+        
       }
     })
   });
