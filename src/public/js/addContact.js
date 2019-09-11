@@ -17,3 +17,18 @@ function addContact() {
   });
 }
 
+socket.on("response-add-new-contact", function(user) {
+  let notify = `<span data-uid="${ user.id }">
+                  <img class="avatar-small" src="images/users/${ user.avatar }" alt=""> 
+                  <strong>${ user.username }</strong> đã gửi cho bạn lời mời kết bạn !
+                </span><br><br><br>`;
+  $(".noti_content").prepend(notify);
+  //prepend : cai moi nhat nam o tren
+  //append: cai moi nhat nam o duoi
+  increaseNumberNotisContact("count-request-contact-received");
+
+  increaseNumberNotifycation("noti_contact_counter");
+  increaseNumberNotifycation("noti_counter");
+
+});
+
