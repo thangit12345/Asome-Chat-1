@@ -5,9 +5,15 @@ import configViewEngine from "./config/viewEngine";
 import initRoutes from "./routers/web";
 import bodyParser from "body-parser";
 import connectFlash from "connect-flash";
-import configSession from "./config/session";
+import session from "./config/session";
 import passport from "passport";
 import passportLocal from "passport-local";
+import http from "http";
+import socketio from "socket.io";
+import initSocket from "./sockets/index";
+import configSocketIo from  "./config/socketio";
+
+import cookieParser from "cookie-parser";
  
 //cai nay de chay dang nhap facebook va google tren local
 
@@ -46,11 +52,17 @@ import passportLocal from "passport-local";
 
 //init app
 let app = express();
+
+//init server with socket.io & express app
+let server = http.createServer(app);
+let io = socketio(server);
+
 //Connect to mongoDB
 ConnectDB();
 
 //config session 
-configSession(app);
+session.config(app);
+
 //config view engine
 configViewEngine(app);
 
@@ -60,12 +72,25 @@ app.use(bodyParser.urlencoded({extended: true}))
 //enable Flash message
 app.use(connectFlash());
 
+
+//user cookie parser
+app.use(cookieParser());
+
 //config passport ks
 app.use(passport.initialize());
 app.use(passport.session());
 
 initRoutes(app);
+ 
+//config all soket io 
+configSocketIo(io, cookieParser, session.sessionStore);
 
-app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+//init all sockets
+initSocket(io);
+// app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+//   console.log(`Hello LeThang I'm running ${process.env.APP_HOST}:${process.env.APP_PORT}/`)
+// });
+
+server.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
   console.log(`Hello LeThang I'm running ${process.env.APP_HOST}:${process.env.APP_PORT}/`)
-});
+});//chay app voi socket

@@ -16,10 +16,10 @@ let sessionStore = new mongoStore({
  * Config session for app
  * @param app from exactly express
  */
-let configSession = (app) => {
+let config = (app) => {
   app.use(session({
-    key: "express.sid",
-    secret: "mySecret",
+    key: process.env.SESSION_KEY,
+    secret: process.env.SESSION_SECRET,
     //store luu vao database,,neu ko co cais nay thi no luu vao page
     ///muon vay phai cai them module connect-mongo
     store: sessionStore,
@@ -31,4 +31,7 @@ let configSession = (app) => {
   }));
 };
 
-module.exports = configSession;
+module.exports = {
+  sessionStore: sessionStore,
+  config: config
+};
