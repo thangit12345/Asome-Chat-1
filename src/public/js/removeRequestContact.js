@@ -22,9 +22,12 @@ function removeRequestContact() {
 
 //khi nguoi dung huy yeu cau ket ban thi xao thong bao
 socket.on("response-remove-request-contact", function(user) {
-  $(".noti_content").find(`span[data-uid = ${user.id}]`).remove();
-  //xoa o modal tab yeu cau ket ban
+  $(".noti_content").find(`div[data-uid = ${user.id}]`).remove(); //remove within popup notification
+  $(".list-notifications").find(`li>div[data-uid = ${user.id}]`).parent().remove(); //remove within modal notification
+  //cai tren chi xoa the div co data-uid ma ko xoa the li vi vay ta them parent de xoa the li ko de bi du
+  //xoa o modal tab yeu cau ket bans
   decreaseNumberNotisContact("count-request-contact-received");
+  
 
   decreaseNumberNotification("noti_contact_counter");
   decreaseNumberNotification("noti_counter");
