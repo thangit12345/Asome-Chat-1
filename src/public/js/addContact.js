@@ -8,7 +8,7 @@ function addContact() {
       if(data.success) {
         $("#find-user").find(`div.user-add-new-contact[data-uid=${targetId}]`).hide();//tim ra class user-add-new-contact ma co data-uid = tagetId
         $("#find-user").find(`div.user-remove-request-contact[data-uid=${targetId}]`).css("display", "inline-block");
-        increaseNumberNotisContact("count-request-contact-sent");
+        increaseNumberNotisContact("count-request-contact-sent", 1);
         // xu ly realtime
         socket.emit("add-new-contact", {contactId: targetId}); //bien socket da khoi taoj trong file main.js
         
@@ -28,11 +28,11 @@ socket.on("response-add-new-contact", function(user) {
   //add notify within notification modal
   $("ul.list-notifications").prepend(`<li>${notify}</li>`);
   //prepend : cai moi nhat nam o tren
-  //append: cai moi nhat nam o duoi
-  increaseNumberNotisContact("count-request-contact-received");
+  //append: cai moi nhat nam o duoi,
+  increaseNumberNotisContact("count-request-contact-received", 1);
 
-  increaseNumberNotifycation("noti_contact_counter");
-  increaseNumberNotifycation("noti_counter");
+  increaseNumberNotifycation("noti_contact_counter", 1);
+  increaseNumberNotifycation("noti_counter", 1);
 
 });
 

@@ -1,8 +1,8 @@
-function decreaseNumberNotification(className) {
+function decreaseNumberNotification(className, number) {
   let currentValue = +$(`.${className}`).text();//dau cong dang truoc de chuyen string thanh number, neu no rong thi tra ve so 0 la mac dinh
   //console.log(currentValue);
   //console.log(typeof currentValue);
-  currentValue -= 1;
+  currentValue -= number;
 
   if(currentValue === 0) {
     $(`.${className}`).css("display", "none").html("");
@@ -11,11 +11,11 @@ function decreaseNumberNotification(className) {
   }
 }
 
-function increaseNumberNotifycation(className) {
+function increaseNumberNotifycation(className, number) {
   let currentValue = +$(`.${className}`).text();//dau cong dang truoc de chuyen string thanh number, neu no rong thi tra ve so 0 la mac dinh
   //console.log(currentValue);
   //console.log(typeof currentValue);
-  currentValue += 1;
+  currentValue += number;
 
   if(currentValue === 0) {
     $(`.${className}`).css("display", "none").html("");
