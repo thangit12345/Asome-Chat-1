@@ -47,6 +47,21 @@ NotificationSchema.statics = {
   //readmore
   readMore(userId, skip, limit) {
     return this.find({"receiverId": userId}).sort({"createdAt": -1}).skip(skip).limit(limit).exec();
+  },
+
+  /**
+   * mark notification as read
+   * @param {string} userId 
+   * @param {Array} targetUsers 
+   */
+  markAllAsRead(userId, targetUsers) {
+    return this.updateMany({
+      $and: [
+        {"receiverId": userId}, 
+        {"senderId": {$in: targetUsers}}
+      ]
+    }, {"isRead": true}).exec();
+
   }
 }
 
@@ -63,7 +78,7 @@ const NOTIFICATION_CONTENS = {
         <strong>${ username }</strong> đã gửi cho bạn lời mời kết bạn !
        </div>`
       }
-      return `<div class="notif-readed-false" data-uid="${ userId }">
+      return `<div class="" data-uid="${ userId }">
       <img class="avatar-small" src="images/users/${ userAvatar }" alt=""> 
       <strong>${ username }</strong> đã gửi cho bạn lời mời kết bạn !
      </div>`
