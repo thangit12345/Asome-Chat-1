@@ -12,6 +12,9 @@ function removeRequestContact() {
           $("#find-user").find(`div.user-remove-request-contact[data-uid=${targetId}]`).hide();//tim ra class user-add-new-contact ma co data-uid = tagetId
           $("#find-user").find(`div.user-add-new-contact[data-uid=${targetId}]`).css("display", "inline-block");
           decreaseNumberNotisContact("count-request-contact-sent", 1);
+          
+          //xoa o modal tab dang cho xac nhan
+          $("#request-contact-sent").find(`li[data-uid=${targetId}]`).remove();
           // xu ly realtimes
           socket.emit("remove-request-contact", {contactId: targetId}); 
         }
@@ -26,6 +29,8 @@ socket.on("response-remove-request-contact", function(user) {
   $(".list-notifications").find(`li>div[data-uid = ${user.id}]`).parent().remove(); //remove within modal notification
   //cai tren chi xoa the div co data-uid ma ko xoa the li vi vay ta them parent de xoa the li ko de bi du
   //xoa o modal tab yeu cau ket bans
+  $("#request-contact-received").find(`li[data-uid=${user.id}]`).remove();
+  
   decreaseNumberNotisContact("count-request-contact-received", 1);
   
 
