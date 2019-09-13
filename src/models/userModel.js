@@ -85,6 +85,10 @@ UserSchema.statics = {
         ]}
       ]
     }, {_id: 1, username: 1, address: 1, avatar: 1}).exec();
+  },
+
+  getNormalUserDataById(id) {
+    return this.findById(id, {_id: 1, username: 1, address: 1, avatar: 1}).exec(); //cho lay cac truong nay ra thoi 
   }
 };
 //static duoc dung de lay ra doi tuong can lay .con khi dung chung de thao tac ()so sanh..thi dung methods

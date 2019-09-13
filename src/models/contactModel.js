@@ -137,7 +137,44 @@ ContactSchema.statics = {
         {"status": false}
       ]
     }).exec();
-  }
+  },
+
+  readMoreContacts(userId, skip, limit) {
+    return this.find({
+      $and: [
+        {$or: [
+          {"userId": userId},
+          {"contactId": userId}
+        ]},
+        {"status": true}
+      ]
+    }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
+  },
+
+  /* read more contacts sent max 10 item one time
+  * @param {string} userid 
+  * @param {number} skip 
+  * @param {number} limit
+  */
+  readMoreContactsSent(userId, skip, limit) {
+    return this.find({
+      $and: [
+        {"userId": userId},
+        {"status": false}
+      ]
+    }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
+  },
+
+  readMoreContactsReceived(userId, skip, limit) {
+    return this.find({
+      $and: [
+        {"contactId": userId},
+        {"status": false}
+      ]
+    }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
+  },
+  
+  
 
 
 };
