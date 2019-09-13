@@ -59,7 +59,88 @@ ContactSchema.statics = {
         {"contactId": contactId}
       ]
     }).exec();
+  },
+
+  /**
+   * get contact by userId and limit
+   * @param {string} userId 
+   * @param {string} limit 
+   */
+  getContacts(userId, limit) {
+    return this.find({
+      $and: [
+        {$or: [
+          {"userId": userId},
+          {"contactId": userId}
+        ]},
+        {"status": true}
+      ]
+    }).sort({"createAt": 1}).limit(limit).exec();
+  },
+  /**
+   * get contact send by userId and limit
+   * @param {string} userId 
+   * @param {string} limit 
+   */
+  getContactsSend(userId, limit) {
+    return this.find({
+      $and: [
+        {"userId": userId},
+        {"status": false}
+      ]
+    }).sort({"createAt": 1}).limit(limit).exec();
+  },
+  /**
+   * get contact receiver by userId and limit
+   * @param {string} userId 
+   * @param {string} limit 
+   */
+  getContactsReceived(userId, limit) {
+    return this.find({
+      $and: [
+        {"contactId": userId},
+        {"status": false}
+      ]
+    }).sort({"createAt": 1}).limit(limit).exec();
+  },
+  countAllContacts(userId) {
+    return this.count({
+      $and: [
+        {$or: [
+          {"userId": userId},
+          {"contactId": userId}
+        ]},
+        {"status": true}
+      ]
+    }).exec();
+  },
+  /**
+   * count all contact send by userId and limit
+   * @param {string} userId 
+   */
+  countAllContactsSend(userId) {
+    return this.count({
+      $and: [
+        {"userId": userId},
+        {"status": false}
+      ]
+    }).exec();
+  },
+  /**
+   * count all  contact receiver by userId and limit
+   * @param {string} userId 
+   */
+  countAllContactsReceived(userId) {
+    return this.count({
+      $and: [
+        {"contactId": userId},
+        {"status": false}
+      ]
+    }).exec();
   }
+
+
 };
+
 
 module.exports = mongoose.model("contact", ContactSchema);

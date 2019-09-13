@@ -1320,7 +1320,10 @@ label:focus,
   margin-right: 20px; 
 }
 
-.read-more-notif {
+.read-more-notif,
+.read-more-contacts,
+.read-more-contacts-send,
+.read-more-contacts-received {
   text-align: center;
 }
 
