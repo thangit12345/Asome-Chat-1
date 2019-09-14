@@ -7,11 +7,16 @@ function addContact() {
      // console.log(data);
       if(data.success) {
         $("#find-user").find(`div.user-add-new-contact[data-uid=${targetId}]`).hide();//tim ra class user-add-new-contact ma co data-uid = tagetId
-        $("#find-user").find(`div.user-remove-request-contact[data-uid=${targetId}]`).css("display", "inline-block");
-        increaseNumberNotisContact("count-request-contact-sent");
+        $("#find-user").find(`div.user-remove-request-contact-sent[data-uid=${targetId}]`).css("display", "inline-block");
+        
+        increaseNumberNotifycation("noti_contact_counter", 1);// js/caculateNotification.js
+
+        increaseNumberNotisContact("count-request-contact-sent");// js/caculateNotifcontct.js
         // khi nhan vao them ban be thi ben tab dang cho xac nhan hien len
         let userInfoHtml = $("#find-user").find(`ul li[data-uid = ${targetId}]`).get(0).outerHTML;
         $("#request-contact-sent").find("ul").prepend(userInfoHtml);
+
+        removeRequestContactSent(); //js/removeRequestContactSend.js
         // xu ly realtime 
         socket.emit("add-new-contact", {contactId: targetId}); //bien socket da khoi taoj trong file main.js
         
@@ -55,12 +60,14 @@ socket.on("response-add-new-contact", function(user) {
                             <div class="user-acccept-contact-received" data-uid="${user.id}">
                                 Chấp nhận
                             </div>
-                            <div class="user-reject-request-contact-received action-danger" data-uid="${user.id}">
+                            <div class="user-remove-request-contact-received action-danger" data-uid="${user.id}">
                                 Xóa yêu cầu
                             </div>
                         </div>
                       </li>`;
   $("#request-contact-received").find("ul").prepend(userInfoHtml);
+
+  removeRequestContactReceived(); //js/removeRequestContacteReceived.js
 
 });
 
