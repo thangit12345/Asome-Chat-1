@@ -1,9 +1,9 @@
-import {pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray} from "./../../helpers/socketHelper";
+import {pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray} from "../../helpers/socketHelper";
 /**
  * 
  * @param io from socket.io lib 
  */
-let removeRequestContact = (io) => {
+let removeRequestContactReceived = (io) => {
   let clients = {};
   //moi lan dang nhap hay f5 hoac mo sang tab moi thi no tao ra mot socket id khac nhau vi vay ta luu cliens voi key : userid va value: mang socket id
   //sau moi lan refresh ,f5 hay moi sang tab  moi ta xoa socket id cu va push sockeet id cu vao mang 
@@ -11,7 +11,7 @@ let removeRequestContact = (io) => {
 
     clients = pushSocketIdToArray(clients, socket.request.user._id, socket.id );
 
-    socket.on("remove-request-contact", (data) => {
+    socket.on("remove-request-contact-received", (data) => {
       //console.log(data);
       //console.log(socket.request.user); //muon lay cai nay thi phai cai them
       //thu vien passports.socketio va cookieparse
@@ -22,7 +22,7 @@ let removeRequestContact = (io) => {
       //khi no dang nhap
       if(clients[data.contactId]) {
         //vi du nguoi dung moi 2 tab thi goi cho ca 2 ben cua nguoi nhan
-        emitNotifyToArray(clients, data.contactId, io, "response-remove-request-contact", currentUser);
+        emitNotifyToArray(clients, data.contactId, io, "response-remove-request-contact-received", currentUser);
       }
      
 
@@ -35,4 +35,4 @@ let removeRequestContact = (io) => {
   });
 }
 
-module.exports = removeRequestContact;
+module.exports = removeRequestContactReceived;

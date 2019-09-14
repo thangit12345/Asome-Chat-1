@@ -52,17 +52,33 @@ let addNew = (currentUserId, contactId) => {
   }); 
 }
 
-let removeRequestContact = (currentUserId, contactId) => {
+let removeRequestContactSent = (currentUserId, contactId) => {
   //o day chu yeu tim nhung user khac da khong co trong danh sach contac de addfriend
   return new Promise(async (resolve, reject) => {
-    let removeReq = await ContactModel.removeRequestContact(currentUserId, contactId);
+    let removeReq = await ContactModel.removeRequestContactSent(currentUserId, contactId);
     //console.log(removeReq.result);
     if(removeReq.result.n === 0) {
       return reject(false);
     }
     // remove notifycation 
     let notifTypeContact = NotifycationModel.types.ADD_CONTACT; 
-    await NotifycationModel.model.removeRequestContactNotification(currentUserId, contactId, notifTypeContact);
+    await NotifycationModel.model.removeRequestContactSentNotification(currentUserId, contactId, notifTypeContact);
+    resolve(true);
+  }); 
+}
+
+let removeRequestContactReceived = (currentUserId, contactId) => {
+  //o day chu yeu tim nhung user khac da khong co trong danh sach contac de addfriend
+  return new Promise(async (resolve, reject) => {
+    let removeReq = await ContactModel.removeRequestContactReceived(currentUserId, contactId);
+    //console.log(removeReq.result);
+    if(removeReq.result.n === 0) {
+      return reject(false);
+    }
+    // chuc nang nay chua muon lam
+    // remove notifycation 
+    // let notifTypeContact = NotifycationModel.types.ADD_CONTACT; 
+    // await NotifycationModel.model.removeRequestContactReceivedNotification(currentUserId, contactId, notifTypeContact);
     resolve(true);
   }); 
 }
@@ -214,13 +230,13 @@ let readMoreContactsReceived = (currentUserId, skipNumberContact) => {
   return new Promise(async (resolve, reject) => {
     try {
       let newContacts= await ContactModel.readMoreContactsReceived(currentUserId, skipNumberContact, LIMIT_NUMBER_TAKEN);
-      //console.log(newNotificaitions);
+      //console.log(newContacts);
 
       let users = newContacts.map(async (contact) => {
-        return await UserModel.getNormalUserDataById(contact.contactId);
+        return await UserModel.getNormalUserDataById(contact.userId);
       });
 
-      //console.log(await Promise.all(getNotifContents));
+      //console.log(await Promise.all(users));
       resolve(await Promise.all(users));
 
     } catch (error) {
@@ -234,7 +250,7 @@ let readMoreContactsReceived = (currentUserId, skipNumberContact) => {
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
-  removeRequestContact: removeRequestContact,
+  removeRequestContactSent: removeRequestContactSent,
   getContacts: getContacts,
   getContactsSend: getContactsSend,
   getContactsReceived: getContactsReceived,
@@ -243,6 +259,7 @@ module.exports = {
   countAllContactsReceived: countAllContactsReceived,
   readMoreContacts: readMoreContacts,
   readMoreContactsSent: readMoreContactsSent,
-  readMoreContactsReceived: readMoreContactsReceived
+  readMoreContactsReceived: readMoreContactsReceived,
+  removeRequestContactReceived: removeRequestContactReceived
 
 }
