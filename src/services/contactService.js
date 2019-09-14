@@ -245,6 +245,24 @@ let readMoreContactsReceived = (currentUserId, skipNumberContact) => {
   });
 };
 
+let approveRequestContactReceived = (currentUserId, contactId) => {
+  
+  return new Promise(async (resolve, reject) => {
+    let approveReq = await ContactModel.approveRequestContactReceived(currentUserId, contactId);
+    //console.log(approveReq.nModified);
+    if(approveReq.nModified === 0) { //1 la thanh cong , 0 la bi loi
+      return reject(false);
+    }
+    // create notification
+    let notificationItem = {
+      senderId: currentUserId,
+      receiverId: contactId,
+      type: NotifycationModel.types.APPROVE_CONTACT,
+    };
+    await NotifycationModel.model.createNew(notificationItem);
+    resolve(true);
+  }); 
+}
 
 
 module.exports = {
@@ -260,6 +278,7 @@ module.exports = {
   readMoreContacts: readMoreContacts,
   readMoreContactsSent: readMoreContactsSent,
   readMoreContactsReceived: readMoreContactsReceived,
-  removeRequestContactReceived: removeRequestContactReceived
+  removeRequestContactReceived: removeRequestContactReceived,
+  approveRequestContactReceived: approveRequestContactReceived
 
 }

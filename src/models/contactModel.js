@@ -56,7 +56,8 @@ ContactSchema.statics = {
     return this.remove({
       $and: [
         {"userId": userId},
-        {"contactId": contactId}
+        {"contactId": contactId},
+        {"status": false}
       ]
     }).exec();
   },
@@ -65,7 +66,8 @@ ContactSchema.statics = {
     return this.remove({
       $and: [
         {"contactId": userId},
-        {"userId": contactId}
+        {"userId": contactId},
+        {"status": false}
       ]
     }).exec();
   },
@@ -182,8 +184,20 @@ ContactSchema.statics = {
       ]
     }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
   },
-  
-  
+  /**
+   * Approve contact 
+   * @param {string} userId 
+   * @param {string} contactId 
+   */
+  approveRequestContactReceived(userId, contactId) {
+    return this.update({
+      $and: [
+        {"contactId": userId},
+        {"userId": contactId},
+        {"status": false}
+      ]
+    }, {"status": true}).exec();
+  },
 
 
 };
