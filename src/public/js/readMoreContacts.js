@@ -44,7 +44,7 @@ $(document).ready(function() {
                   </div>
                  </li>`); //modal notif
         });
-  
+        removeContact();
         $("#link-read-more-contacts").css("display", "inline-block");
         $(".read-more-contacts-loader").css("display", "none");
       });
