@@ -39,7 +39,7 @@ import {transErrors, transSuccess} from "./../../../lang/vi";
   });
 
   passport.deserializeUser((id, done) => { //then passport.session se goi then nay, con then tren minh luu bien session
-    UserModel.findUserById(id)
+    UserModel.findUserByIdForSessionToUse(id)
       .then(user => {
         return done(null, user);
       })
