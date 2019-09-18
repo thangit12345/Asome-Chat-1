@@ -2,8 +2,10 @@ import ContactModel from "./../models/contactModel";
 import UserModel from "./../models/userModel";
 import ChatGroupModel from "./../models/chatGroupModel";
 import _ from "lodash";
+import MessageModel from "./../models/messageModel";
 
 const LIMIT_CONSERVATION_TAKEN = 15;
+const LIMIT_MESSAGE_TAKEN = 15;
 /**
  * get all coversation
  * @param {string} currentUserId 
@@ -17,12 +19,12 @@ let getAllConversationItems = (currentUserId) => {
 
           let getUserContact = await UserModel.getNormalUserDataById(contact.userId);
           // getUserContact = getUserContact.toObject();
-          getUserContact.createAt = contact.createAt;
+          getUserContact.updateAt = contact.updateAt;
           return getUserContact;
         }else {
           let getUserContact = await UserModel.getNormalUserDataById(contact.contactId);
           // getUserContact = getUserContact.toObject();
-          getUserContact.createAt = contact.createAt;
+          getUserContact.updateAt = contact.updateAt;
           return getUserContact;
         }
         
@@ -31,12 +33,29 @@ let getAllConversationItems = (currentUserId) => {
       let groupConversations = await ChatGroupModel.getChatGroups(currentUserId, LIMIT_CONSERVATION_TAKEN);
       let allConversations = userConversations.concat(groupConversations);
       allConversations = _.sortBy(allConversations, (item) => {
-        return  -item.createAt; //sap xep theo lon ve nho
+        return  -item.updateAt; //sap xep theo lon ve nho
       });
+
+      //get message to apply to screen chat
+      let allConversationWithMessagesPromise = allConversations.map(async (conversation) =>{
+        let getMessages = await MessageModel.model.getMessages(currentUserId, conversation._id, LIMIT_MESSAGE_TAKEN);
+        
+        conversation = conversation.toObject();
+        conversation.messages = getMessages;
+        return conversation;
+      });
+
+      let allConversationWithMessages = await Promise.all(allConversationWithMessagesPromise);
+      //sort by updateAt desending
+      allConversationWithMessages = _.sortBy(allConversationWithMessages, (item) => {
+        return -item.updateAt;
+      });
+      //console.log(allConversationWithMessages);
       resolve({
         userConversations: userConversations,
         groupConversations: groupConversations,
-        allConversations: allConversations
+        allConversations: allConversations,
+        allConversationWithMessages: allConversationWithMessages
       });
 
     } catch (error) {
