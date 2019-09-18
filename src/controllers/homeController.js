@@ -24,6 +24,7 @@ let getHome = async (req, res) => {
   //all message with conversation max 30 item
   let allConversationWithMessages = getAllConversationItems.allConversationWithMessages;
 
+  //console.log(req.user);
   return res.render("main/home/home", {
     errors: req.flash("errors"),
     success: req.flash("success"),

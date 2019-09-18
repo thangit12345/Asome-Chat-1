@@ -51,8 +51,11 @@ UserSchema.statics = {
       {"local.isActive": true, "local.verifyToken": null}
     ).exec();
   }, 
-  findUserById(id) {
+  findUserByIdToUpdatePassword(id) {
     return this.findById(id).exec();
+  },
+  findUserByIdForSessionToUse(id) {
+    return this.findById(id, {"local.password": 0}).exec(); //loai bo truong password ko lay
   },
   findByFacebookId(uid) {
     return this.findOne({"facebook.uid": uid}).exec();
