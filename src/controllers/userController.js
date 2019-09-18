@@ -45,8 +45,10 @@ let updateAvatar = (req, res) => {
      //console.log(req.user._id, updateUserItem);
      //update users
      let userUpdate = await user.updateUser(req.user._id, updateUserItem);
+
      //remove old user avatar //cai module fs-extra
-     await fs_extra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
+     //ko xoa avatar cu cua nguoi dung vi trong bangr message can de su dung
+     //await fs_extra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
      let result = {
        message: transSuccess.avatar_updated,
        imageSrc: `/images/users/${req.file.filename}`

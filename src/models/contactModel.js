@@ -103,7 +103,7 @@ ContactSchema.statics = {
         ]},
         {"status": true}
       ]
-    }).sort({"createAt": 1}).limit(limit).exec();
+    }).sort({"updateAt": -1}).limit(limit).exec(); //-1 lay tu cao xuong thap
   },
   /**
    * get contact send by userId and limit
@@ -116,7 +116,7 @@ ContactSchema.statics = {
         {"userId": userId},
         {"status": false}
       ]
-    }).sort({"createAt": 1}).limit(limit).exec();
+    }).sort({"createAt": -1}).limit(limit).exec();
   },
   /**
    * get contact receiver by userId and limit
@@ -129,7 +129,7 @@ ContactSchema.statics = {
         {"contactId": userId},
         {"status": false}
       ]
-    }).sort({"createAt": 1}).limit(limit).exec();
+    }).sort({"createAt": -1}).limit(limit).exec();
   },
   countAllContacts(userId) {
     return this.count({
@@ -176,7 +176,7 @@ ContactSchema.statics = {
         ]},
         {"status": true}
       ]
-    }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
+    }).sort({"updateAt": -1}).skip(skip).limit(limit).exec();
   },
 
   /* read more contacts sent max 10 item one time
@@ -190,7 +190,7 @@ ContactSchema.statics = {
         {"userId": userId},
         {"status": false}
       ]
-    }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
+    }).sort({"createAt": -1}).skip(skip).limit(limit).exec();
   },
 
   readMoreContactsReceived(userId, skip, limit) {
@@ -199,7 +199,7 @@ ContactSchema.statics = {
         {"contactId": userId},
         {"status": false}
       ]
-    }).sort({"createAt": 1}).skip(skip).limit(limit).exec();
+    }).sort({"createAt": -1}).skip(skip).limit(limit).exec();
   },
   /**
    * Approve contact 
@@ -213,7 +213,10 @@ ContactSchema.statics = {
         {"userId": contactId},
         {"status": false}
       ]
-    }, {"status": true}).exec();
+    }, {
+      "status": true,
+      "updateAt": Date.now()
+    }).exec();
   },
 
 

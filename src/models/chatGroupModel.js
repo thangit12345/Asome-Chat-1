@@ -11,7 +11,7 @@ let ChatGroupSchema = new Schema({
     {userId: String}
   ],
   createAt: {type: Number, default: Date.now},
-  updateAt: {type: Number, default: null},
+  updateAt: {type: Number, default: Date.now},
   deleteAt: {type: Number, default: null}
 });
 
@@ -24,7 +24,7 @@ ChatGroupSchema.statics = {
   getChatGroups(userId, limit) {
     return this.find({
       "members": {$elemMatch: {"userId": userId}} //neu ma userId ton tai trong mang nay thi lay ca mang
-    }).sort({"createAt": -1}).limit(limit).exec();
+    }).sort({"updateAt": -1}).limit(limit).exec();
   }
 }
 
