@@ -24,8 +24,8 @@ function nineScrollRight(divId) {
   $(`.right .chat[data-chat=${divId}]`).scrollTop($(`.right .chat[data-chat=${divId}]`)[0].scrollHeight);
 }
 
-function enableEmojioneArea(chatId) {
-  $('.write-chat[data-chat="' + chatId + '"]').emojioneArea({
+function enableEmojioneArea(divId) {
+  $(`#write-chat-${divId}`).emojioneArea({
     standalone: false,
     pickerPosition: 'top',
     filtersPosition: 'bottom',
@@ -37,7 +37,12 @@ function enableEmojioneArea(chatId) {
     shortnames: false,
     events: {
       keyup: function(editor, event) {
-        $('.write-chat').val(this.getText());
+        // gan gia tri thay doi vao the input an
+        $(`#write-chat-${divId}`).val(this.getText());
+      },
+      click: function() {
+        // bat lang nge DOM cho viec chat tin nhan van ban emoji
+        textAndEmojichat(divId);
       }
     },
   });
@@ -181,6 +186,9 @@ function changeScreenChat() {
     let divId = $(this).find("li").data("chat");
 
     nineScrollRight(divId);
+
+      // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
+    enableEmojioneArea(divId);
   });
 }
 
@@ -195,8 +203,7 @@ $(document).ready(function() {
   nineScrollLeft();
   
 
-  // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
-  enableEmojioneArea("17071995");
+
 
   // Icon loading khi chạy ajax
   ajaxLoading();
@@ -221,6 +228,6 @@ $(document).ready(function() {
   //thay doiman hinh chat
   changeScreenChat();
 
-  $("ul.people").find("li")[0].click(); //khi load trang mac dinh se click then dung dau danh sach conersation
+  $("ul.people").find("a")[0].click(); //khi load trang mac dinh se click then dung dau danh sach conersation
   
 });

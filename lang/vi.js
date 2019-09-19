@@ -7,7 +7,8 @@ export const transValidation = {
   update_gender: "Oops! Du lieu gioi tinh co van de , ban hacker chang !",
   update_address: "Dia chi gioi tinh khoang 3-30 ky tu !",
   update_phone: "So dien thoai bat dau voi so 0 va gioi han trong khoang 10-11 ky tu !",
-  key_word_find_user: "Loi tu khoa tim kiem chi cho phep ky tu va so va khoang trang"
+  key_word_find_user: "Loi tu khoa tim kiem chi cho phep ky tu va so va khoang trang",
+  message_text_emoji_incorrect: "Tin nhan ko hop le. dam bao toi thieu 1 ky tu va toi da 400 ky tu !"
 }
 
 export const transErrors = {
@@ -20,7 +21,8 @@ export const transErrors = {
   server_error: "Co loi o phia server, vui long kiem tra lau",
   avatar_type: "Kieu file khong hop le, chi chap nhan jpg, png",
   avatar_size: "Anh up load toi da cho phep la 1mb !",
-  user_current_password_failed: "Mat khau hien tai chua chinh xac !"
+  user_current_password_failed: "Mat khau hien tai chua chinh xac !",
+  conversation_not_found: "Cuoc tro chuyen khong ton tai"
 };
 
 export const transSuccess = {
