@@ -1,6 +1,6 @@
 export let pushSocketIdToArray = (clients, userId, socketId) => {
   if(clients[userId]) {
-    clients[currentUserId].push(socket.id);  //khi nguoi dung f5 hoac sang tab moi thi push vao
+    clients[userId].push(socketId);  //khi nguoi dung f5 hoac sang tab moi thi push vao
     
   }else {
     clients[userId] = [socketId]; //nguoi dung lan dau truy cap khoi tao lun gias tri 
