@@ -43,6 +43,12 @@ function enableEmojioneArea(divId) {
       click: function() {
         // bat lang nge DOM cho viec chat tin nhan van ban emoji
         textAndEmojichat(divId);
+        // bat chuc nang nguoi dung go tro chuyen
+        typingOn(divId);
+      },
+      blur: function() {
+        //tat chuc nang nguoi dung go phim
+        typingOff(divId);
       }
     },
   });
@@ -189,8 +195,10 @@ function changeScreenChat() {
 
     nineScrollRight(divId);
 
-      // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
+    // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
     enableEmojioneArea(divId);
+    // Lang nge cho viet chat tin nhan hinh anh
+    imageChat(divId);
   });
 }
 

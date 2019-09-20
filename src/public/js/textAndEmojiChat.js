@@ -62,6 +62,16 @@ function textAndEmojichat(divId) {
 
         // step 06 L emit realtime
         socket.emit("chat-text-emoji", dataToEmit);
+
+        // step 07: emit  remove typing real-time
+        typingOff(divId);
+
+        // step 08: if this has typing , remove that imediately
+        let checkTyping = $(`.chat[data-chat=${divId}]`).find("div.bubble-typing-gif");
+        if(checkTyping.length) {
+          checkTyping.remove();
+        }
+
       }).fail(function(response) {
         //error
         alertify.notify(response.responseText, "error", 7);

@@ -22,7 +22,9 @@ export const transErrors = {
   avatar_type: "Kieu file khong hop le, chi chap nhan jpg, png",
   avatar_size: "Anh up load toi da cho phep la 1mb !",
   user_current_password_failed: "Mat khau hien tai chua chinh xac !",
-  conversation_not_found: "Cuoc tro chuyen khong ton tai"
+  conversation_not_found: "Cuoc tro chuyen khong ton tai",
+  image_type: "Kieu file khong hop le, chi chap nhan jpg, png",
+  image_size: "Anh up load toi da cho phep la 1mb !",
 };
 
 export const transSuccess = {
