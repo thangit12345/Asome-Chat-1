@@ -1,6 +1,7 @@
 import passport from "passport";
 import passportGoogle from "passport-google-oauth";
 import UserModel from "./../../models/userModel";
+import ChatGroupModel from "./../../models/chatGroupModel";
 let googleStrategy = passportGoogle.OAuth2Strategy;
 import {transErrors, transSuccess} from "./../../../lang/vi";
 /**
@@ -51,14 +52,17 @@ let ggCallBack = process.env.GG_CALLBACK_URL;
     done(null, user._id)
   });
 
-  passport.deserializeUser((id, done) => { //then passport.session se goi then nay, con then tren minh luu bien session
-    UserModel.findUserByIdForSessionToUse(id)
-      .then(user => {
-        return done(null, user);
-      })
-      .catch(error => {
-        return done(error, null);
-      })
+  passport.deserializeUser(async (id, done) => { //then passport.session se goi then nay, con then tren minh luu bien session
+    try {
+      let user = await UserModel.findUserByIdForSessionToUse(id);
+      let getChatGroupIds = await ChatGroupModel.getChatGroupIdsByUser(user._id);
+      
+      user = user.toObject();
+      user.chatGroupIds = getChatGroupIds;
+      return done(null, user);
+    } catch (error) {
+      return done(error, null);
+    }
   });
  };
 
