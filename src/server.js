@@ -12,7 +12,8 @@ import http from "http";
 import socketio from "socket.io";
 import initSocket from "./sockets/index";
 import configSocketIo from  "./config/socketio";
-
+import events from "events";
+import  * as configApp from "./config/app";
 import cookieParser from "cookie-parser";
  
 //cai nay de chay dang nhap facebook va google tren local
@@ -52,7 +53,8 @@ import cookieParser from "cookie-parser";
 
 //init app
 let app = express();
-
+//cau hinh cho so luong socket ma trong file index cua socket chungs ta khai bao
+events.EventEmitter.defaultMaxListeners = 30;
 //init server with socket.io & express app
 let server = http.createServer(app);
 let io = socketio(server);
