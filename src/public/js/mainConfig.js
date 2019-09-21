@@ -207,6 +207,8 @@ function changeScreenChat() {
     imageChat(divId);
      // Lang nge cho viet chat tin nhan tep dinh kem
      attachChat(divId);
+     //goi video 
+     videoChat(divId);
   });
 }
 
@@ -252,4 +254,7 @@ $(document).ready(function() {
 
   $("ul.people").find("a")[0].click(); //khi load trang mac dinh se click then dung dau danh sach conersation
   
+  $("#video-chat-group").bind("click", function() {
+    alertify.notify("Khong kha dung tinh nang nay voi nhom tro chuyen, Vui long thu lai voi tro chuyen ca nhan", "error", 7);
+  });
 });
