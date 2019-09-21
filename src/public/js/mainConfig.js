@@ -99,6 +99,8 @@ function gridPhotos(layoutNumber) {
     let href = $(this).attr("href");
     let modalImageId = href.replace("#", ""); //bo dau #
     
+    let originDataImage = $(`#${modalImageId}`).find("div.modal-body").html();
+
     let countRows = Math.ceil($(`#${modalImageId}`).find("div.all-images>img").length / layoutNumber);
     let layoutStr = new Array(countRows).fill(layoutNumber).join("");
 
@@ -119,6 +121,10 @@ function gridPhotos(layoutNumber) {
         });
       }
     });
+    // bat su kien dong modal
+    $(`#${modalImageId}`).on('hidden.bs.modal', function () {
+      $(this).find("div.modal-body").html(originDataImage);
+  })
   });
   
 }
@@ -199,7 +205,13 @@ function changeScreenChat() {
     enableEmojioneArea(divId);
     // Lang nge cho viet chat tin nhan hinh anh
     imageChat(divId);
+     // Lang nge cho viet chat tin nhan tep dinh kem
+     attachChat(divId);
   });
+}
+
+function bufferToBase64(buffer) {
+  return base64 = btoa( new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ""));
 }
 
 $(document).ready(function() {

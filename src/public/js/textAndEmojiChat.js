@@ -48,7 +48,7 @@ function textAndEmojichat(divId) {
         currentEmojioneArea.find(".emojionearea-editor").text("");
      
         // step 04 : change data preview & time in leftside
-        $(`.person[data-chat=${divId}]`).find("span.time").removeClass("message-time-realtime").html(moment(data.message.createAt).local("vi").startOf('seconds').fromNow());
+        $(`.person[data-chat=${divId}]`).find("span.time").removeClass("message-time-realtime").html(moment(data.message.createAt).locale("vi").startOf('seconds').fromNow());
         $(`.person[data-chat=${divId}]`).find("span.preview").html(data.message.text);
 
         // step 05: move conversation to the top
@@ -108,7 +108,7 @@ $(document).ready(function() {
         // step 03 : remove all data at cell input: nothing to code
 
         // step 04 : change data preview & time in leftside
-        $(`.person[data-chat=${divId}]`).find("span.time").html(moment(response.message.createAt).local("vi").startOf('seconds').fromNow());
+        $(`.person[data-chat=${divId}]`).find("span.time").html(moment(response.message.createAt).locale("vi").startOf('seconds').fromNow());
         $(`.person[data-chat=${divId}]`).find("span.preview").html(response.message.text);
 
         // step 05: move conversation to the top
@@ -120,5 +120,7 @@ $(document).ready(function() {
         //$(`.person[data-chat=${divId}]`).click();     
         $(`.person[data-chat=${divId}]`).trigger("levanthang.moveConversationToTheTop");
          // step 06 L emit realtime : nothing to code
+         // step 07: emit remove typing realtime: nothing to code
+         //step 08: if this has typing , remove that imediately: nothing to code
   });
 });

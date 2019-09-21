@@ -65,6 +65,7 @@ let initRoutes = (app) => {
   
   router.post("/message/add-new-text-emoji", auth.checkLoggedIn, messageValid.checkMessageLength, message.addNewTextEmoji);
   router.post("/message/add-new-image", auth.checkLoggedIn, message.addNewImage);
+  router.post("/message/add-new-attach", auth.checkLoggedIn, message.addNewAttach);
 
    return app.use("/", router)
 };

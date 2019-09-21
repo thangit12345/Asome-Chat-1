@@ -61,7 +61,7 @@
 
                                 <% if(message.messageType === "file") { %>
                                 <div class="bubble <% if(message.senderId == user._id) { %> me <% }
-                                    else { %> you <% } %> bubble-image-file" data-mess-id="<%= message._id %>">
+                                    else { %> you <% } %> bubble-attach-file" data-mess-id="<%= message._id %>">
                                     <img src="/images/users/<%= message.sender.avatar %>" class="avatar-small" title="<%= message.sender.name %>" />
                                     <a href="data: <%= message.file.contentType %>; base64, <%= bufferToBase64(message.file.data) %> "  download="<%= message.file.fileName %>">
                                         <%= message.file.fileName %>
@@ -81,8 +81,8 @@
                                 <input type="file" id="image-chat-<%= conversation._id %>" name="my-image-chat" class="image-chat chat-in-group" data-chat="<%= conversation._id %>">
                                 <i class="fa fa-photo"></i>
                             </label>
-                            <label for="attach-chat">
-                                <input type="file" id="attach-chat" name="my-attach-chat" class="attach-chat" data-chat="<%= conversation._id %>">
+                            <label for="attach-chat-<%= conversation._id %>">
+                                <input type="file" id="attach-chat-<%= conversation._id %>" name="my-attach-chat" class="attach-chat chat-in-group" data-chat="<%= conversation._id %>">
                                 <i class="fa fa-paperclip"></i>
                             </label>
                             <a href="#streamModal" id="video-chat" class="video-chat" data-chat="<%= conversation._id %>" data-toggle="modal">
@@ -132,7 +132,7 @@
     
                                     <% if(message.messageType === "file") { %>
                                     <div class="bubble <% if(message.senderId == user._id) { %> me <% }
-                                        else { %> you <% } %> bubble-image-file" data-mess-id="<%= message._id %>">
+                                        else { %> you <% } %> bubble-attach-file" data-mess-id="<%= message._id %>">
                                         <a href="data: <%= message.file.contentType %>; base64, <%= bufferToBase64(message.file.data) %> "  download="<%= message.file.fileName %>">
                                             <%= message.file.fileName %>
                                         </a>
@@ -150,8 +150,8 @@
                                     <input type="file" id="image-chat-<%= conversation._id %>" name="my-image-chat" class="image-chat" data-chat="<%= conversation._id %>">
                                     <i class="fa fa-photo"></i>
                                 </label>
-                                <label for="attach-chat">
-                                    <input type="file" id="attach-chat" name="my-attach-chat" class="attach-chat" data-chat="<%= conversation._id %>">
+                                <label for="attach-chat-<%= conversation._id %>">
+                                    <input type="file" id="attach-chat-<%= conversation._id %>" name="my-attach-chat" class="attach-chat" data-chat="<%= conversation._id %>">
                                     <i class="fa fa-paperclip"></i>
                                 </label>
                                 <a href="#streamModal" id="video-chat" class="video-chat" data-chat="<%= conversation._id %>" data-toggle="modal">
