@@ -32,12 +32,16 @@ $(document).ready(function() {
     alertify.notify("Nguoi dung hien khong truc tuyens", "error", 7);
   });
 
+  let iceServerList = $("#ice-server-list").val();
+  //console.log(iceServerList);
+
   let getPeerId = "";
   const peer = new Peer({
     key: "peerjs",
     host: "peerjs-server-trungquandev.herokuapp.com",
     secure: true,
     port: 443,
+    config: {"iceServers": JSON.parse(iceServerList)}, // config cho 2 thang chat video khac duong mang khac nhau
     debug: 3
   }); //cai nay co thu vien import trong file master
   console.log(peer);
