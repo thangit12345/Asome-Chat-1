@@ -14,7 +14,7 @@ function callLogout() {
     timer: 5000,
     onBeforeOpen: () => {
       Swal.showLoading();
-      timerInterval: setInterval(() => {
+      timerInterval = setInterval(() => {
         Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft() / 1000);
       }, 1000);
     },
