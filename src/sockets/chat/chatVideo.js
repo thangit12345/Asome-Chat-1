@@ -36,7 +36,7 @@ let chatVideo = (io) => {
         listenerName: data.listenerName,
         listenerPeerId: data.listenerPeerId
       };
-
+      
       if(clients[data.callerId]){
         emitNotifyToArray(clients, data.callerId, io, "server-send-peer-id-of-listener-to-caller", response);
       }
@@ -92,7 +92,7 @@ let chatVideo = (io) => {
         listenerName: data.listenerName,
         listenerPeerId: data.listenerPeerId
       };
-
+      console.log("response server: ",response);
       if(clients[data.callerId]){
         emitNotifyToArray(clients, data.callerId, io, "server-send-accept-call-to-caller", response);
       }
