@@ -9,6 +9,8 @@ import typingOff from "./chat/typingOff";
 import chatImage from "./chat/chatImage";
 import chatAttach from "./chat/chatAttach";
 import chatVideo from "./chat/chatVideo";
+import userOnlineOffline from "./status/userOnlineOffline";
+import newGroupChat from "./group/newGroupChat";
 
 
 /**
@@ -27,6 +29,8 @@ let initSockets = (io) => {
   chatImage(io);
   chatAttach(io);
   chatVideo(io);
+  userOnlineOffline(io);
+  newGroupChat(io);
 }
 
 module.exports = initSockets;

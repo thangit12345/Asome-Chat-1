@@ -31,7 +31,7 @@ let approveRequestContactReceived = (io) => {
     socket.on("disconnect", () => {
       clients = removeSocketIdFromArray(clients, socket.request.user._id, socket);
     });
-    console.log("cliens: ",clients);
+   // console.log("cliens: ",clients);
   });
 }
 

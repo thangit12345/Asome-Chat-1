@@ -18,7 +18,7 @@ let removeContact = (io) => {
       let currentUser = {
         id: socket.request.user._id
       };
-      console.log(currentUser);
+     // console.log(currentUser);
       //emit notication
       //khi no dang nhap
       if(clients[data.contactId]) {

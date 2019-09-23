@@ -44,7 +44,7 @@ $(document).ready(function() {
     config: {"iceServers": JSON.parse(iceServerList)}, // config cho 2 thang chat video khac duong mang khac nhau
     debug: 3
   }); //cai nay co thu vien import trong file master
-  console.log(peer);
+  //console.log(peer);
   peer.on("open", function(peerId) {
     getPeerId = peerId;
     console.log("peerId: ",getPeerId);
