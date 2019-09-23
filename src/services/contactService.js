@@ -273,6 +273,27 @@ let approveRequestContactReceived = (currentUserId, contactId) => {
     await NotifycationModel.model.createNew(notificationItem);
     resolve(true);
   }); 
+};
+
+let searchFriends = (currentUserId, keyword) => {
+  //o day chu yeu tim nhung user khac da khong co trong danh sach contac de addfriend
+  return new Promise(async (resolve, reject) => {
+    try {
+      let friendIds = [];
+      let friends = await ContactModel.getFriends(currentUserId);
+      friends.forEach((item) => {
+        friendIds.push(item.userId);
+        friendIds.push(item.contactId);
+      });
+      friendIds = _.uniqBy(friendIds); //loc het trung lap
+      friendIds = friendIds.filter(userId => userId != currentUserId); // ly do != cho ko phai !== la vi: typeOf(userid) = string, typeof(currentuserid) = object
+    
+      let users = await UserModel.findAllToAddGroupChat(friendIds, keyword);
+      resolve(users);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 
@@ -291,6 +312,7 @@ module.exports = {
   readMoreContactsReceived: readMoreContactsReceived,
   removeRequestContactReceived: removeRequestContactReceived,
   approveRequestContactReceived: approveRequestContactReceived,
-  removeContact: removeContact
+  removeContact: removeContact,
+  searchFriends: searchFriends
 
 }

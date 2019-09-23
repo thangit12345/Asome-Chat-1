@@ -3,14 +3,14 @@ function callFindUsers(element) {
     let keyword = $("#input-find-users-contact").val();
     let regexKeyword = new RegExp(/^[\s0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/);
     
-    // if(!keyword.length) {
-    //   alertify.notify("Chua nhap noi dung tim kiem", "error", 7);
-    //   return false;
-    // }
-    // if(!regexKeyword.test(keyword)) {
-    //   alertify.notify("Loi tu khoa tim kiem chi cho phep ky tu va so va khoang trang", "error", 7);
-    //   return false;
-    // }
+    if(!keyword.length) {
+      alertify.notify("Chua nhap noi dung tim kiem", "error", 7);
+      return false;
+    }
+    if(!regexKeyword.test(keyword)) {
+      alertify.notify("Loi tu khoa tim kiem chi cho phep ky tu va so va khoang trang", "error", 7);
+      return false;
+    }
     //cai nay giong vs $.ajax 
     $.get(`/contact/find-users/${keyword}`, function(data) {
       $("#find-user ul").html(data);

@@ -8,8 +8,10 @@ export const transValidation = {
   update_address: "Dia chi gioi tinh khoang 3-30 ky tu !",
   update_phone: "So dien thoai bat dau voi so 0 va gioi han trong khoang 10-11 ky tu !",
   key_word_find_user: "Loi tu khoa tim kiem chi cho phep ky tu va so va khoang trang",
-  message_text_emoji_incorrect: "Tin nhan ko hop le. dam bao toi thieu 1 ky tu va toi da 400 ky tu !"
-}
+  message_text_emoji_incorrect: "Tin nhan ko hop le. dam bao toi thieu 1 ky tu va toi da 400 ky tu !",
+  add_new_group_users_incorrect: "Vui lòng chọn bạn bè để thêm vào nhóm, tối thiểu 2 người !",
+  add_new_group_name_incorrect: "Vui long nhap tên cuộc trò chuyên. giới hạn 5-30 ký tự và không chứa ký tự đặc biệt ! !"
+};
 
 export const transErrors = {
   account_in_use: "Email nay da duoc su dung",

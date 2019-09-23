@@ -238,8 +238,23 @@ ContactSchema.statics = {
     }, {
       "updateAt": Date.now()
     }).exec();
-  }
-
+  },
+  
+   /**
+   * get contact friend by userId 
+   * @param {string} userId 
+   */
+  getFriends(userId) {
+    return this.find({
+      $and: [
+        {$or: [
+          {"userId": userId},
+          {"contactId": userId}
+        ]},
+        {"status": true}
+      ]
+    }).sort({"updateAt": -1}).exec(); //-1 lay tu cao xuong thap
+  },
 };
 
 

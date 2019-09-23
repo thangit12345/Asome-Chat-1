@@ -84,7 +84,7 @@ function attachChat(divId) {
                                       </a>
                                   </li>`;
 
-        $(`#attachsModal__${divId}`).find("ul.list-attachs").append(attachChatToAddModal);
+        $(`#attachsModal_${divId}`).find("ul.list-attachs").append(attachChatToAddModal);
       },
       error: function(error) {
        alertify.notify(error.responseText, "error", 7);
@@ -152,7 +152,7 @@ $(document).ready(function() {
                                         </a>
                                     </li>`;
 
-        $(`#attachsModal__${divId}`).find("ul.list-attachs").append(attachChatToAddModal);
+        $(`#attachsModal_${divId}`).find("ul.list-attachs").append(attachChatToAddModal);
       }
 
   });
