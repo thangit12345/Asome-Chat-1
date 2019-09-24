@@ -47,6 +47,11 @@ ChatGroupSchema.statics = {
     return this.find({
       "members": {$elemMatch: {"userId": userId}} //neu ma userId ton tai trong mang nay thi lay ca mang
     }, {_id: 1}).exec();
+  },
+  readMoreChatGroups(userId, skip, limit) {
+    return this.find({
+      "members": {$elemMatch: {"userId": userId}} //neu ma userId ton tai trong mang nay thi lay ca mang
+    }).sort({"updateAt": -1}).skip(skip).limit(limit).exec();
   }
 }
 

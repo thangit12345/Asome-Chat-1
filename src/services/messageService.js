@@ -7,7 +7,7 @@ import {transErrors} from "./../../lang/vi";
 import {app} from "./../config/app";
 import fsExtra from "fs-extra";
 
-const LIMIT_CONSERVATION_TAKEN = 15;
+const LIMIT_CONSERVATION_TAKEN = 1;
 const LIMIT_MESSAGE_TAKEN = 15;
 /**
  * get all coversation
@@ -298,9 +298,74 @@ let addNewAttach = (sender, receiverId, messageVal, isChatGroup) => {
   });
 };
 
+/**
+ * read more personal and group chat
+ * @param {striing} currentUserId 
+ * @param {number} skipPersonal 
+ * @param {number} skipGroup 
+ */
+let readMoreAllChat = (currentUserId, skipPersonal, skipGroup) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let contacts = await ContactModel.readMoreContacts(currentUserId, skipPersonal, LIMIT_CONSERVATION_TAKEN);
+      let usersConversationsPromise = contacts.map(async (contact) => {
+        if(contact.contactId == currentUserId) { //tring == object ..vi vay ta so sanh hai dau bang , neu so sanh 3 dau bang(ss tuyert doi) thi ko ra ket qua
+
+          let getUserContact = await UserModel.getNormalUserDataById(contact.userId);
+          // getUserContact = getUserContact.toObject();
+          getUserContact.updateAt = contact.updateAt;
+          return getUserContact;
+        }else {
+          let getUserContact = await UserModel.getNormalUserDataById(contact.contactId);
+          // getUserContact = getUserContact.toObject();
+          getUserContact.updateAt = contact.updateAt;
+          return getUserContact;
+        }
+        
+      });
+      let userConversations = await Promise.all(usersConversationsPromise);
+      
+      let groupConversations = await ChatGroupModel.readMoreChatGroups(currentUserId, skipGroup, LIMIT_CONSERVATION_TAKEN);
+
+      let allConversations = userConversations.concat(groupConversations);
+      allConversations = _.sortBy(allConversations, (item) => {
+        return  -item.updateAt; //sap xep theo lon ve nho
+      });
+
+      //get message to apply to screen chat
+      let allConversationWithMessagesPromise = allConversations.map(async (conversation) =>{
+        conversation = conversation.toObject();
+
+        if(conversation.members) { //rtro chuyen nhom
+          let getMessages = await MessageModel.model.getMessagesInGroup(conversation._id, LIMIT_MESSAGE_TAKEN);
+          conversation.messages = _.reverse(getMessages);
+        }else {
+          let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, conversation._id, LIMIT_MESSAGE_TAKEN);
+          conversation.messages = _.reverse(getMessages);
+        }
+        
+        return conversation;
+      });
+
+      let allConversationWithMessages = await Promise.all(allConversationWithMessagesPromise);
+      //sort by updateAt desending
+      allConversationWithMessages = _.sortBy(allConversationWithMessages, (item) => {
+        return -item.updateAt;
+      });
+      resolve({
+        allConversationWithMessages: allConversationWithMessages
+      });
+
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 module.exports = {
   getAllConversationItems: getAllConversationItems,
   addNewTextEmoji: addNewTextEmoji,
   addNewImage: addNewImage,
-  addNewAttach: addNewAttach
+  addNewAttach: addNewAttach,
+  readMoreAllChat: readMoreAllChat
 };
