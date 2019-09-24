@@ -4,7 +4,12 @@ import multer from "multer";
 import {app} from "./../config/app";
 import {transErrors, transSuccess} from "./../../lang/vi"
 import fsExtra from "fs-extra";
+import ejs from "ejs";
+import {lastItemOfArray, convertTimestampToHumanTime, bufferToBase64} from "./../helpers/clientHelper";
+import {promisify} from "util";
 
+// make ejs function renderFile available with await
+const renderFile = promisify(ejs.renderFile).bind(ejs); // sau buoc nay no se san sang tra ve 1 loi hua
 // handel text and emojji chat
 let addNewTextEmoji = async(req, res) => {
   let errorArr = [];
@@ -143,10 +148,51 @@ let addNewAttach = async(req, res) => {
   });
   
 };
+let readMoreAllChat = async(req, res) => {
+  try {
+    // get skip number from query param
+    let skipPersonal = +(req.query.skipPersonal);
+    let skipGroup = +(req.query.skipGroup);
+    //get more item
+    let newAllConversations = await message.readMoreAllChat(req.user._id, skipPersonal, skipGroup);
+    //console.log(newAllConversation);
+
+    let dataToRender = {
+      newAllConversations: newAllConversations,
+      lastItemOfArray: lastItemOfArray,
+      convertTimestampToHumanTime: convertTimestampToHumanTime,
+      bufferToBase64: bufferToBase64,
+      user: req.user
+    };
+    // do ejs.renderFile chua ho tro asyst await ,,nen phai viet theo callback hell ...de tranh truong hop su dung callback hell thi ta chuyen no ve de co the dung duoc asyst await theo cach promisify cua uti
+    let leftSideData = await renderFile("src\\views\\main\\readMoreConversations\\_leftSide.ejs", dataToRender);
+    // ejs.renderFile("src\\views\\main\\readMoreConversations\\_leftSide.ejs", dataToRender, {}, function(err, str){
+    //   if(err) {
+    //     console.log(err);
+    //     return ;
+    //   }
+    //   console.log(str)
+    // });
+    // cach nay goi la server render
+    let rightSideData = await renderFile("src\\views\\main\\readMoreConversations\\_rightSide.ejs", dataToRender);
+    let imageModalData = await renderFile("src\\views\\main\\readMoreConversations\\_imageModal.ejs", dataToRender);
+    let attachModalData = await renderFile("src\\views\\main\\readMoreConversations\\_attachModal.ejs", dataToRender);
+
+    return res.status(200).send({
+      leftSideData: leftSideData,
+      rightSideData: rightSideData,
+      imageModalData: imageModalData,
+      attachModalData: attachModalData
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
 
 
 module.exports = {
   addNewTextEmoji: addNewTextEmoji,
   addNewImage: addNewImage,
-  addNewAttach: addNewAttach
+  addNewAttach: addNewAttach,
+  readMoreAllChat: readMoreAllChat
 };
