@@ -52,7 +52,21 @@ MessageSchema.statics = {
       ]
     }).sort({"createAt": -1}).limit(limit).exec();
   },
-
+  readMoreMessageInPersonal(senderId, receiverId, skip, limit) {
+    return this.find({
+      $or: [
+        {$and: [
+          {"senderId": senderId},
+          {"receiverId": receiverId}
+        ]},
+        {$and: [
+          {"receiverId": senderId},
+          {"senderId": receiverId}
+        ]}
+      ]
+    }).sort({"createAt": -1}).skip(skip).limit(limit).exec();
+  },
+ // 41
   /**
    * get message in group
    * @param {string} receiverId  id of group chat
@@ -60,6 +74,10 @@ MessageSchema.statics = {
    */
   getMessagesInGroup(receiverId, limit) {
     return this.find({"receiverId": receiverId}).sort({"createAt": -1}).limit(limit).exec();
+  },
+
+  readMoreMessageInGroup(receiverId, skip, limit) {
+    return this.find({"receiverId": receiverId}).sort({"createAt": -1}).skip(skip).limit(limit).exec();
   }
 };
 

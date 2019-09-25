@@ -41,7 +41,7 @@
                         </span>
                     </div>
                     <div class="content-chat">
-                        <div class="chat" data-chat="<%= conversation._id %>">
+                        <div class="chat chat-in-group" data-chat="<%= conversation._id %>">
                             <% conversation.messages.forEach(function(message) { %>
                                 <% if(message.messageType === "text") { %>
                                     <div class="bubble <% if(message.senderId == user._id) { %> me <% }
@@ -56,6 +56,10 @@
                                         else { %> you <% } %> bubble-image-file" data-mess-id="<%= message._id %>">
                                         <img src="/images/users/<%= message.sender.avatar %>" class="avatar-small" title="<%= message.sender.name %>" />
                                         <img src="data: <%= message.file.contentType %>; base64, <%= bufferToBase64(message.file.data) %>" class="show-image-chat">
+                                        <div id="img-chat-modal" class="modal">
+                                            <span class="close">&times;</span>
+                                            <img class="modal-content" id="img-chat-modal-content">
+                                        </div>
                                     </div>
                                 <% } %>
 
@@ -69,8 +73,6 @@
                                 </div>
                                 <% } %>
                             <% }); %>
-                            
-                           
                         </div>
                     </div>
                     <div class="write" data-chat="<%= conversation._id %>">

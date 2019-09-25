@@ -8,7 +8,7 @@ $(document).ready(function() {
     $("#link-read-more-all-chat").css("display", "none");
     $(".read-more-all-chat-loader").css("display", "inline-block");
   
-    setTimeout(() => {
+   
       $.get(`/message/read-more-all-chat?skipPersonal=${skipPersonal}&skipGroup=${skipGroup}`, function(data) {
        if(data.leftSideData.trim() === "") {
         alertify.notify("Ban khong con cuoc tro chuyen nao de xem nua ca", "error", 7);
@@ -23,13 +23,14 @@ $(document).ready(function() {
        // step 02: handel scroll
        resizeNineScrollLeft();
        nineScrollLeft();
+       ///console.log(data.rightSideData);
 
        // step 03: handle rightside
        $("#screen-chat").append(data.rightSideData);
 
        // step 04: call function screenChat
        changeScreenChat();
-
+       
        // step 05: convert emoji 
        // steo 06 handle imagemodal
        $("body").append(data.imageModalData);
@@ -42,10 +43,18 @@ $(document).ready(function() {
 
        // step 09: update-online
        socket.emit("check-status");
-
+       // step 10: remove loading
         $("#link-read-more-all-chat").css("display", "inline-block");
         $(".read-more-all-chat-loader").css("display", "none");
+
+        // Step 11: call readMoreMessage
+        // kiểm tra chưa có bạn bè thì thông báo để kết bạn
+        notYetConversation();
+
+        // click vao tro chuyen
+        userTalk() ;
+        zoomImageChat();
+        readMoreMessages();
       });
-    }, 1000);
   });
 });

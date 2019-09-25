@@ -177,9 +177,42 @@ let readMoreAllChat = async(req, res) => {
     let rightSideData = await renderFile("src\\views\\main\\readMoreConversations\\_rightSide.ejs", dataToRender);
     let imageModalData = await renderFile("src\\views\\main\\readMoreConversations\\_imageModal.ejs", dataToRender);
     let attachModalData = await renderFile("src\\views\\main\\readMoreConversations\\_attachModal.ejs", dataToRender);
+   // console.log(rightSideData);
 
     return res.status(200).send({
       leftSideData: leftSideData,
+      rightSideData: rightSideData,
+      imageModalData: imageModalData,
+      attachModalData: attachModalData
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
+let readMore = async(req, res) => {
+  try {
+    // get skip number from query param
+    let skipMessage = +(req.query.skipMessage);
+    let targetId = req.query.targetId;
+    let chatInGroup = (req.query.chatInGroup === "true"); // convert string to boolean
+    
+    //get more item
+    let newMessages = await message.readMore(req.user._id, skipMessage, targetId, chatInGroup);
+    //console.log();
+
+    let dataToRender = {
+      newMessages: newMessages,
+      bufferToBase64: bufferToBase64,
+      user: req.user
+    };
+    //console.log(newMessages);
+    // do ejs.renderFile chua ho tro asyst await ,,nen phai viet theo callback hell ...de tranh truong hop su dung callback hell thi ta chuyen no ve de co the dung duoc asyst await theo cach promisify cua uti
+    let rightSideData = await renderFile("src\\views\\main\\readMoreMessages\\_rightSide.ejs", dataToRender);
+    let imageModalData = await renderFile("src\\views\\main\\readMoreMessages\\_imageModal.ejs", dataToRender);
+    let attachModalData = await renderFile("src\\views\\main\\readMoreMessages\\_attachModal.ejs", dataToRender);
+   //sconsole.log(rightSideData);
+
+    return res.status(200).send({
       rightSideData: rightSideData,
       imageModalData: imageModalData,
       attachModalData: attachModalData
@@ -194,5 +227,6 @@ module.exports = {
   addNewTextEmoji: addNewTextEmoji,
   addNewImage: addNewImage,
   addNewAttach: addNewAttach,
-  readMoreAllChat: readMoreAllChat
+  readMoreAllChat: readMoreAllChat,
+  readMore: readMore
 };
