@@ -8,7 +8,7 @@ import {app} from "./../config/app";
 import fsExtra from "fs-extra";
 
 const LIMIT_CONSERVATION_TAKEN = 1;
-const LIMIT_MESSAGE_TAKEN = 15;
+const LIMIT_MESSAGE_TAKEN = 10;
 /**
  * get all coversation
  * @param {string} currentUserId 
@@ -361,11 +361,38 @@ let readMoreAllChat = (currentUserId, skipPersonal, skipGroup) => {
     }
   });
 }
+/**
+ * read more message 
+ * @param {striing} currentUserId 
+ * @param {number} skipMessage 
+ * @param {number} targetId 
+ * @param {boolean} chatInGroup 
+ */
+let readMore = (currentUserId, skipMessage, targetId, chatInGroup) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // message in group
+      if(chatInGroup) { //tro chuyen nhom
+        let getMessages = await MessageModel.model.readMoreMessageInGroup(targetId, skipMessage ,LIMIT_MESSAGE_TAKEN);
+        getMessages = _.reverse(getMessages);
+        return resolve(getMessages);
+      }
+      // message in personal
+      let getMessages = await MessageModel.model.readMoreMessageInPersonal(currentUserId, targetId,
+      skipMessage, LIMIT_MESSAGE_TAKEN);
+      getMessages = _.reverse(getMessages);
+      return resolve(getMessages);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 module.exports = {
   getAllConversationItems: getAllConversationItems,
   addNewTextEmoji: addNewTextEmoji,
   addNewImage: addNewImage,
   addNewAttach: addNewAttach,
-  readMoreAllChat: readMoreAllChat
+  readMoreAllChat: readMoreAllChat,
+  readMore: readMore
 };
