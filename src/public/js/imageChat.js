@@ -61,7 +61,7 @@ function imageChat(divId) {
         // step 02: append messge data to screen
         $(`.right .chat[data-chat=${divId}]`).append(messageOfMe);
         nineScrollRight(divId);
-
+        zoomImageChat();
         // step 03 : remove all data at cell input: nothing to code
 
          // step 04 : change data preview & time in leftside
@@ -149,5 +149,6 @@ $(document).ready(function() {
 
         $(`#imagesModal_${divId}`).find("div.all-images").append(imageChatToAddModal);
       }
+      zoomImageChat();
   });
 });

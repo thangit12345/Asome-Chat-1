@@ -40,6 +40,7 @@ $(document).ready(function() {
 
        // step 08: handle attach modal
        $("body").append(data.attachModalData);
+       $("body").append(data.membersModalData);
 
        // step 09: update-online
        socket.emit("check-status");
@@ -49,12 +50,13 @@ $(document).ready(function() {
 
         // Step 11: call readMoreMessage
         // kiểm tra chưa có bạn bè thì thông báo để kết bạn
-        notYetConversation();
+     
+        readMoreMessages();
 
+        notYetConversation();
         // click vao tro chuyen
         userTalk() ;
         zoomImageChat();
-        readMoreMessages();
       });
   });
 });

@@ -169,6 +169,32 @@ let searchFriends = async (req, res) => {
   }
 };
 
+let findMessageNameOrEmail = async (req, res) => {
+  let errorArr = [];
+  
+  let validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    let errors = Object.values(validationErrors.mapped());
+    errors.forEach(item => {
+      errorArr.push(item.msg);
+    });
+    //Logging
+    console.log(errorArr);
+    return res.status(500).send(errorArr);
+  }
+
+  try {
+    let currentUserId = req.user._id;
+    let keyword = req.params.keyword;
+
+    let users = await contact.findMessageNameOrEmail(currentUserId, keyword);
+    
+    return res.render("main/contact/sections/_findConversation", {users});
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
+
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
@@ -179,5 +205,6 @@ module.exports = {
   removeRequestContactReceived: removeRequestContactReceived,
   approveRequestContactReceived: approveRequestContactReceived,
   removeContact: removeContact,
-  searchFriends: searchFriends
+  searchFriends: searchFriends,
+  findMessageNameOrEmail: findMessageNameOrEmail
 }

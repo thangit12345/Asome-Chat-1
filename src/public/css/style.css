@@ -170,6 +170,7 @@ label:focus,
   float: left;
 }
 
+
 .contactPanel .user-avatar img {
   border-radius: 30px;
   width: 50px;
@@ -1676,4 +1677,56 @@ label:focus,
   #img-chat-modal-content {
     width: 100%;
   }
+}
+
+ul.memberList {
+  list-style: none;
+  display: flex;
+  
+}
+
+.contactPanel .user-avatar-member img {
+  border-radius: 30px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #bdc3c7;
+}
+
+.contactPanel .user-avatar-member {
+  display: block;
+  margin-left: 20px;
+  margin-bottom: 8px
+}
+
+li._memberList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 13px;
+}
+li.result-for-search {
+    padding: 10px;
+    background: #e5eaef;
+    margin-bottom: 6px;
+    /* border: 3px solid #ecebeb; */
+    border-radius: 4px;
+}
+li.result-for-search div {
+  display: inline-block;
+  color: #6d5a5a;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+li.result-for-search img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+li.result-for-search:hover {
+  background: #d4dada;
 }

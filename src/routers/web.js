@@ -72,6 +72,8 @@ let initRoutes = (app) => {
   
   router.post("/group-chat/add-new", auth.checkLoggedIn, groupChatValid.addNewGroup, groupChat.addNewGroup);
 
+  router.get("/conversation/find-conversation/:keyword", auth.checkLoggedIn, contactValid.checkFindConversation, contact.findMessageNameOrEmail);
+
    return app.use("/", router)
 };
 

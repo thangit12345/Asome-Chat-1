@@ -177,13 +177,15 @@ let readMoreAllChat = async(req, res) => {
     let rightSideData = await renderFile("src\\views\\main\\readMoreConversations\\_rightSide.ejs", dataToRender);
     let imageModalData = await renderFile("src\\views\\main\\readMoreConversations\\_imageModal.ejs", dataToRender);
     let attachModalData = await renderFile("src\\views\\main\\readMoreConversations\\_attachModal.ejs", dataToRender);
-   // console.log(rightSideData);
+    let membersModalData = await renderFile("src\\views\\main\\readMoreConversations\\_memberModal.ejs", dataToRender);
+    // console.log(rightSideData);
 
     return res.status(200).send({
       leftSideData: leftSideData,
       rightSideData: rightSideData,
       imageModalData: imageModalData,
-      attachModalData: attachModalData
+      attachModalData: attachModalData,
+      membersModalData: membersModalData
     });
   } catch (error) {
     return res.status(500).send(error);
@@ -221,6 +223,8 @@ let readMore = async(req, res) => {
     return res.status(500).send(error);
   }
 };
+
+
 
 
 module.exports = {

@@ -149,7 +149,7 @@ function gridPhotos(layoutNumber) {
 function flashMasterNotify() {
   let notify = $(".master-success-message").text();
   if (notify.length) {
-    alertify.notify(notify, "success", 7); //co scri[t cua thu vien nay]
+    alertify.notify(notify, "success", 7); //co script cua thu vien nay]
   }
 }
 
@@ -204,7 +204,9 @@ function bufferToBase64(buffer) {
 
 // khi click vao anh tren message thi zoom to le
 function zoomImageChat() {
+  
   $(".show-image-chat").unbind("click").on("click", function() {
+    console.log('imge click');
     $("#img-chat-modal").css("display", "block");
     $("#img-chat-modal-content").attr("src", $(this)[0].src);
 

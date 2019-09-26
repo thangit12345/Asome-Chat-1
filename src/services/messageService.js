@@ -46,6 +46,13 @@ let getAllConversationItems = (currentUserId) => {
         if(conversation.members) { //rtro chuyen nhom
           let getMessages = await MessageModel.model.getMessagesInGroup(conversation._id, LIMIT_MESSAGE_TAKEN);
           conversation.messages = _.reverse(getMessages);
+
+          // extras get userInfo
+          conversation.membersInfo = [];
+          for(let member of conversation.members) {
+            let userInfo =  await UserModel.getNormalUserDataById(member.userId);
+            conversation.membersInfo.push(userInfo);
+          }
         }else {
           let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, conversation._id, LIMIT_MESSAGE_TAKEN);
           conversation.messages = _.reverse(getMessages);
@@ -59,6 +66,7 @@ let getAllConversationItems = (currentUserId) => {
       allConversationWithMessages = _.sortBy(allConversationWithMessages, (item) => {
         return -item.updateAt;
       });
+      //console.log(allConversationWithMessages);
       resolve({
         // userConversations: userConversations,
         // groupConversations: groupConversations,
@@ -339,6 +347,12 @@ let readMoreAllChat = (currentUserId, skipPersonal, skipGroup) => {
         if(conversation.members) { //rtro chuyen nhom
           let getMessages = await MessageModel.model.getMessagesInGroup(conversation._id, LIMIT_MESSAGE_TAKEN);
           conversation.messages = _.reverse(getMessages);
+
+          conversation.membersInfo = [];
+          for(let member of conversation.members) {
+            let userInfo =  await UserModel.getNormalUserDataById(member.userId);
+            conversation.membersInfo.push(userInfo);
+          }
         }else {
           let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, conversation._id, LIMIT_MESSAGE_TAKEN);
           conversation.messages = _.reverse(getMessages);
@@ -387,6 +401,7 @@ let readMore = (currentUserId, skipMessage, targetId, chatInGroup) => {
     }
   });
 }
+
 
 module.exports = {
   getAllConversationItems: getAllConversationItems,

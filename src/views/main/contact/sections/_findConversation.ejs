@@ -1,0 +1,16 @@
+<% users.forEach(function(user) { %>
+  <li class="result-for-search">
+    <% if(user.members) { %>
+      <img src="images/users/group-avatar-trungquandev.png" alt="">
+      <div  class="user-talk" data-uid="<%= user._id %>">
+        <%= user.name %>
+      </div>
+    <% } else { %>
+      <img src="images/users/<%= user.avatar %>" alt="">
+      <div  class="user-talk" data-uid="<%= user._id %>">
+        <%= user.username %>
+      </div>
+     <% } %>
+    
+  </li>
+<% }); %>
