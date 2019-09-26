@@ -52,7 +52,18 @@ ChatGroupSchema.statics = {
     return this.find({
       "members": {$elemMatch: {"userId": userId}} //neu ma userId ton tai trong mang nay thi lay ca mang
     }).sort({"updateAt": -1}).skip(skip).limit(limit).exec();
-  }
+  },
+
+  findByNameGroupChat(currentUserId, keyword) {
+    return this.find({
+      $and: [
+        {"members": {$elemMatch: {"userId": currentUserId}}},
+        {$or: [
+          {"name": {"$regex": new RegExp(keyword, "i")}}
+        ]}
+      ]
+    }).exec();
+  },
 }
 
 

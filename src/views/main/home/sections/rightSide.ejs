@@ -24,8 +24,8 @@
                             <a href="javascript:void(0)">&nbsp;</a>
                         </span>
                         <span class="chat-menu-right">
-                            <a href="javascript:void(0)" class="number-members" data-toggle="modal">
-                                <span class="show-number-members"><%= conversation.userAmount %></span>
+                            <a href="#membersModal_<%= conversation._id%>" class="number-members" data-toggle="modal">
+                                <span class="show-number-members"><%= conversation.userAmount %> Thành viên</span>
                                 <i class="fa fa-users"></i>
                             </a>
                         </span>
@@ -35,7 +35,7 @@
                         </span>
                         <span class="chat-menu-right">
                             <a href="javascript:void(0)" class="number-messages" data-toggle="modal">
-                                <span class="show-number-messages"><%= conversation.messageAmount %></span>
+                                <span class="show-number-messages"><%= conversation.messageAmount %> Tin nhắn</span>
                                 <i class="fa fa-comment-o"></i>
                             </a>
                         </span>
@@ -128,6 +128,10 @@
                                         <div class="bubble <% if(message.senderId == user._id) { %> me <% }
                                             else { %> you <% } %> bubble-image-file" data-mess-id="<%= message._id %>">
                                             <img src="data: <%= message.file.contentType %>; base64, <%= bufferToBase64(message.file.data) %>" class="show-image-chat">
+                                            <div id="img-chat-modal" class="modal">
+                                                <span class="close">&times;</span>
+                                                <img class="modal-content" id="img-chat-modal-content" />
+                                            </div>
                                         </div>
                                     <% } %>
     

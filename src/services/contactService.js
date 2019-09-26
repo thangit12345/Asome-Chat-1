@@ -1,5 +1,6 @@
 import ContactModel from "./../models/contactModel";
 import UserModel from "./../models/userModel";
+import ChatGroupModel from "./../models/chatGroupModel";
 import NotifycationModel from "./../models/notificationModel";
 import _ from "lodash";
 
@@ -297,6 +298,30 @@ let searchFriends = (currentUserId, keyword) => {
 }
 
 
+let findMessageNameOrEmail = (currentUserId, keyword) => {
+  //o day chu yeu tim nhung user khac da khong co trong danh sach contac de addfriend
+  return new Promise(async (resolve, reject) => {
+    try {
+      let friendIds = [];
+      let friends = await ContactModel.getFriends(currentUserId);
+      friends.forEach((item) => {
+        friendIds.push(item.userId);
+        friendIds.push(item.contactId);
+      });
+      friendIds = _.uniqBy(friendIds); //loc het trung lap
+      friendIds = friendIds.filter(userId => userId != currentUserId); // ly do != cho ko phai !== la vi: typeOf(userid) = string, typeof(currentuserid) = object
+    
+      let users = await UserModel.findAllToAddGroupChat(friendIds, keyword);
+      let group = await ChatGroupModel.findByNameGroupChat(currentUserId, keyword);
+      let merger = users.concat(group);
+   
+      resolve(merger);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
@@ -313,6 +338,7 @@ module.exports = {
   removeRequestContactReceived: removeRequestContactReceived,
   approveRequestContactReceived: approveRequestContactReceived,
   removeContact: removeContact,
-  searchFriends: searchFriends
+  searchFriends: searchFriends,
+  findMessageNameOrEmail: findMessageNameOrEmail
 
 }

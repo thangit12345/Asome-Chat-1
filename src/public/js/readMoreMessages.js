@@ -22,12 +22,7 @@ function readMoreMessages() {
             thisDom.find("img.message-loading").remove();
             return false;
            }
-            // extras
-            notYetConversation();
-
-            // click vao tro chuyen
-            userTalk() ;
-            zoomImageChat();
+           
            // Step 01: hadle rightSide
            $(`.right .chat[data-chat=${targetId}]`).prepend(data.rightSideData);
   
@@ -47,7 +42,11 @@ function readMoreMessages() {
   
            // Step 07: remove message loading
            thisDom.find("img.message-loading").remove();
-
+            // extras
+            notYetConversation();
+            // click vao tro chuyen
+            userTalk() ;
+            zoomImageChat();
           
         });
       }, 1000);
