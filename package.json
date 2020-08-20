@@ -19,7 +19,7 @@
   "homepage": "https://github.com/thangit12345/Asome-Chat-1#readme",
   "dependencies": {
     "babel-preset-env": "^1.7.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.2",
     "connect-flash": "^0.1.1",
